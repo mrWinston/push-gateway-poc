@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pusher
+  namespace: openshift-monitoring
+spec:
+  jobTemplate:
+    metadata:
+      name: pusher
+    spec:
+      template:
+        spec:
+          containers:
+          - image: quay.io/maschulz/pushgateway-pusher-poc:latest
+            name: pusher
+            env:
+            - name: PUSHGW_URL
+              value: "http://prometheus-pushgateway.openshift-monitoring.svc.cluster.local:9091"
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "50m"
+              limits:
+                memory: "128Mi"
+                cpu: "100m"
+          restartPolicy: OnFailure
+  schedule: "* * * * *"
