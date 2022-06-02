@@ -4,6 +4,8 @@ metadata:
   name: pusher
   namespace: openshift-monitoring
 spec:
+  concurrencyPolicy: Forbid
+  schedule: "* * * * *"
   jobTemplate:
     metadata:
       name: pusher
@@ -24,4 +26,3 @@ spec:
                 memory: "128Mi"
                 cpu: "100m"
           restartPolicy: OnFailure
-  schedule: "* * * * *"
